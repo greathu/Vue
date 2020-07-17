@@ -8,13 +8,54 @@
 </head>
 
 <body>
+    <div id="app">
+        <h1>嵌套路由实列</h1>
+        <router-link to="/login/tom">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 切换效果，先出再进 -->
+        <transition mode="out-in">
+            <!-- 显示容器 -->
+            <router-view></router-view>
+        </transition>
+    </div>
 
     <!-- 开发环境版本，包含了有帮助的命令行警告 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- 添加vue路由文件 -->
     <script src="./css/vue-router.js"></script>
     <script>
+        var login = {
+            template: "<h1>登录 {{$route.params.user}}</h1>"
+        }
+        var register = {
+            template: "<h1>注册</h1>"
+        }
+        // 注意这里：是 routes 不是 routers
+        var router = new VueRouter({
+            routes: [{
+                    path: "/login/:user",
+                    component: login
+                },
+                {
+                    path: "/",
+                    // redirect 后端命令，重定向
+                    redirect: "/login"
 
+                },
+                {
+                    path: "/register",
+                    component: register
+                }
+            ],
+            // 选中高亮效果
+            linkActiveClass: "myactive"
+        })
+
+        var vml = new Vue({
+            el: "#app",
+            // 添加路由
+            router
+        })
     </script>
 </body>
 
