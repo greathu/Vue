@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>路由</title>
+    <title>路由组件传参</title>
     <style>
         .myactive {
             color: red;
@@ -25,8 +25,8 @@
 
 <body>
     <div id="app">
-        <h1>路由基本实列</h1>
-        <router-link to="/login">登录</router-link>
+        <h1>路由组件传参</h1>
+        <router-link to="/login?user=tom">登录</router-link>
         <router-link to="/register">注册</router-link>
         <!-- 切换效果，先出再进 -->
         <transition mode="out-in">
@@ -43,7 +43,7 @@
     <script src="./css/vue-router.js"></script>
     <script>
         var login = {
-            template: "<h1>登录</h1>"
+            template: "<h1>登录{{$route.query.user}}</h1>"
         }
         var register = {
             template: "<h1>注册</h1>"
