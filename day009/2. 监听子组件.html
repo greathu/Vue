@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监听子组件</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1 @click="parentMethod">获取到子组件中的数据是：{{parentData}}</h1>
+        <my-comp1 @event-a="parentMethod"></my-comp1>
+    </div>
+
+    <template id="template1">
+        <div>
+            <h1>子组件</h1>
+            <h1>子组件中的数据是：{{sonData}}</h1>
+            <input type="button" value="click me" @click="sonMethod()">
+        </div>
+    </template>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm1 = new Vue({
+            el: "#app",
+            data: {
+                parentData: ""
+            },
+            methods: {
+                parentMethod(param) {
+                    console.log("parentMethod is called" + param)
+                    this.parentData = param
+                }
+            },
+            components: {
+                // 局部组件
+                "MyComp1": {
+                    // 组件维护自身的数据，每个子组件都有自己的独立data
+                    // data中的数据都是可读 ，可写
+                    data: function () {
+                        return {
+                            sonData: 1000
+                        }
+                    },
+                    template: "#template1",
+                    methods: {
+                        sonMethod() {
+                            console.log("sonMethod is called")
+                            // 将事件向上抛出
+                            this.$emit('event-a', this.sonData)
+                        }
+                    },
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

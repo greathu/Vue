@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发表评论</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div>
+            <comment @post-comment="list"></comment>
+        </div>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item" v-for="item in comments">
+                    <span class="badge">{{item.user}}</span>
+                    {{item.content}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <template id="comment">
+        <div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">发表评论</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="bs-example" data-example-id="basic-forms">
+                        <form>
+                            <div class="form-group">
+                                <label for="user">用户：</label>
+                                <input type="text" class="form-control" id="user" placeholder="tom" v-model="user">
+                            </div>
+                            <div class="form-group">
+                                <label for="content">评论内容：</label>
+                                <input type="text" class="form-control" id="content" placeholder="" v-model="content">
+                            </div>
+                            <button type="button" class="btn btn-default" @click="postComment">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var comment = {
+            template: "#comment",
+            data: function () {
+                return {
+                    user: "",
+                    content: ""
+                }
+            },
+            methods: {
+                postComment() {
+                    console.log("postComment")
+                    var comment = {
+                        user: this.user,
+                        content: this.content
+                    }
+                    // 取出原先localStorage中的数据，
+                    var comments = JSON.parse(localStorage.getItem("comments") || "[]")
+                    // 将评论的数据放入到数组中
+                    comments.unshift(comment)
+                    // 将内存中的comments 数组保存到localStorage
+                    localStorage.setItem("comments", JSON.stringify(comments))
+
+                    this.$emit('post-comment')
+                }
+            },
+        }
+        var vml = new Vue({
+            el: "#app",
+            data: {
+                comments: []
+            },
+            created() {
+                this.list()
+            },
+            methods: {
+                list() {
+                    var comments = JSON.parse(localStorage.getItem("comments") || "[]")
+                    this.comments = comments
+                }
+            },
+            components: {
+                comment
+            }
+        })
+    </script>
+</body>
+
+</html>
