@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数渲染</title>
+</head>
+
+<body>
+    <div id="app">
+        <my-comp></my-comp>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var MyComp = {
+            template: "<div>子组件</div>"
+        }
+        var vm = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+            components: {
+                MyComp
+            }
+            // render(createElements) {
+            //     // createElements 是一个函数，调用它，能够把自定组件模板，渲染程对应的html页面
+            //      这里的return 结果，回替换页面el指定的容器元素
+            //     return createElements(MyComp)
+            // },
+
+        })
+    </script>
+</body>
+
+</html>

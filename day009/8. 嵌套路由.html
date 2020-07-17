@@ -10,8 +10,9 @@
 <body>
     <div id="app">
         <h1>嵌套路由实列</h1>
-        <router-link to="/login/tom">登录</router-link>
-        <router-link to="/register">注册</router-link>
+        <router-link to="/user/tom">主页</router-link>
+        <router-link to="/user/tom/profile">个人简介</router-link>
+        <router-link to="/user/tom/posts">任职经历</router-link>
         <!-- 切换效果，先出再进 -->
         <transition mode="out-in">
             <!-- 显示容器 -->
@@ -24,27 +25,46 @@
     <!-- 添加vue路由文件 -->
     <script src="./css/vue-router.js"></script>
     <script>
-        var login = {
-            template: "<h1>登录 {{$route.params.user}}</h1>"
+        var user = {
+            template: "<div><h1>用户名： {{$route.params.id}}</h1>  <router-view></router-view></div>"
         }
-        var register = {
-            template: "<h1>注册</h1>"
+
+        var userHome = {
+            template: "<div>主页</div>"
         }
+
+        var userprofile = {
+            template: "<div>个人简介</div>"
+        }
+
+        var userposts = {
+            template: "<h1>任职经历</h1>"
+        }
+
         // 注意这里：是 routes 不是 routers
         var router = new VueRouter({
             routes: [{
-                    path: "/login/:user",
-                    component: login
-                },
-                {
                     path: "/",
-                    // redirect 后端命令，重定向
-                    redirect: "/login"
-
+                    redirect: "/user/tom"
                 },
                 {
-                    path: "/register",
-                    component: register
+                    // 当输入user/tom，会进入user页面
+                    path: "/user/:id",
+                    component: user,
+                    //子路由
+                    children: [{
+                            path: "",
+                            component: userHome
+                        },
+                        {
+                            path: "profile",
+                            component: userprofile
+                        },
+                        {
+                            path: "posts",
+                            component: userposts
+                        }
+                    ]
                 }
             ],
             // 选中高亮效果

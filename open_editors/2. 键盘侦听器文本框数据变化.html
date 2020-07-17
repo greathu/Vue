@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侦听器</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>watch侦听器的作用</h1>
+        <input type="text" name="" id="" v-model="firstname"> +
+        <input type="text" name="" id="" v-model="lastname"> =
+        <input type="text" name="" id="" v-model="fullname">
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vml = new Vue({
+            el: "#app",
+            data: {
+                firstname: "",
+                lastname: "",
+                fullname: ""
+            },
+            methods: {},
+            watch: {
+                firstname: function (newVal, oldVal) {
+                    // console.log("fristanme")
+                    // console.log(newVal + "----fristanme---" + oldVal)
+                    // this.fullname = this.firstname + "-" + this.lastname
+                    this.fullname = newVal + "-" + this.lastname
+                },
+                lastname: function (newVal, oldVal) {
+                    this.fullname = this.firstname + "-" + this.lastname
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
