@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访问子组件的实列</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1 id="myh1" ref="myh1">根组件</h1>
+        <input type="button" value="访问子组件对象实列" @click="getElement">
+        <br>
+        -------
+        <my-comp1 ref="mycomp1"></my-comp1>
+    </div>
+
+    <template id="template1">
+        <div>
+            <h1>子组件</h1>
+        </div>
+    </template>
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vml = new Vue({
+            el: "#app",
+            data: {
+                parentData: 100
+            },
+            methods: {
+                getElement() {
+                    // console.log(document)
+                    // console.log(this.$refs.myh1.innerHTML)
+                    console.log(this.$refs.mycomp1.sonData)
+                    console.log(this.$refs.mycomp1.sonMethod())
+                }
+            },
+            components: {
+                "MyComp1": {
+                    data: function () {
+                        return {
+                            sonData: 1000
+                        }
+                    },
+                    template: "#template1",
+                    methods: {
+                        sonMethod() {
+                            console.log("sonMethod")
+                        }
+                    },
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
