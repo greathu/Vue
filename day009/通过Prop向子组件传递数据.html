@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子组件传递数据</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>根组件</h1>
+        <p>根组件访问自己的数据：{{parentData}}</p>
+        ----------------
+        <my-comp1 :prop1="parentData"></my-comp1>
+    </div>
+
+    <template id="template1">
+        <div>
+            <h1>子组件</h1>
+            <p>访问父组件中的数据</p>
+            <!-- 子组件中不能直接访问父组件中的data数据 -->
+            <p>通过属性访问父组件中的数据：{{prop1}}</p>
+            <p>访问子组件中的数据：{{sonData}}</p>
+            <input type="button" value="修改prop数据" @click="change()">
+        </div>
+    </template>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm1 = new Vue({
+            el: "#app",
+            data: {
+                parentData: 100
+            },
+            methods: {
+
+            },
+            components: {
+                // 局部组件
+                "MyComp1": {
+                    // 组件维护自身的数据，每个子组件都有自己的独立data
+                    // data中的数据都是可读 ，可写
+                    data: function () {
+                        return {
+                            sonData: 1000
+                        }
+                    },
+                    template: "#template1",
+                    // 接收父组件中的数据，定义链接对象
+                    props: ["prop1"],
+                    // props中的数据，都是从父组件传递给子组件的数据，
+                    // props中的数据， 自读，不应该对期重新赋值
+                    methods: {
+                        change() {
+                            this.prop1 = 200
+                        }
+                    },
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
